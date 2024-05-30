@@ -28,7 +28,7 @@ chrome.tabs.onCreated.addListener(() => {
                         {   type: "basic",
                             iconUrl: "icon32.png",
                             title: 'LimitMessage',
-                            message: `Limit left: ${website.newLimit - 1}`
+                            message: `Limit left: ${website.newLimit}`
                         });
                         chrome.notifications.clear("LimitMessage");
                     }
