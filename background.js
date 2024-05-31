@@ -5,11 +5,12 @@ chrome.tabs.onCreated.addListener(() => {
         const url = details.url;
         const tabId = details.tabId;
         const hour = new Date().getHours();
+        const min = new Date().getMinutes();
 
         if (website && url) {
-            console.log(`Website:${website.key}, tab: ${url}, newLimit:${website.newLimit}`)
+            console.log(`Website:${website.key}, tab: ${url}, newLimit:${website.newLimit}, hour:${min}`)
             if (url.includes(website.key)) {
-                if (hour !== 0 || hour !== 24) {
+                if (hour !== 0 && min !== 0) {
                     if (website.newLimit === 0) {
                         chrome.tabs.remove(tabId);
 
@@ -35,8 +36,14 @@ chrome.tabs.onCreated.addListener(() => {
                 }
                 else {
                     //Limit resets at midnight.
-                    console.log("Limit resetted")
-                    chrome.storage.local.set({newLimit: website.limit});
+                    website.newLimit = website.limit;
+                    chrome.notifications.create("LimitReset", 
+                    {   type: "basic",
+                        iconUrl: "icon32.png",
+                        title: 'LimitReset',
+                        message: `Limit Resetted: ${website.newLimit}`
+                    });
+                    chrome.notifications.clear("LimitReset");
                 }
             }
         }
