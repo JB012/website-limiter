@@ -1,16 +1,14 @@
 chrome.tabs.onCreated.addListener(() => {
     chrome.webNavigation.onCompleted.addListener(async (details) => {
         //Waiting to get input from popup.
-        const website = await chrome.storage.local.get(["key", "limit", "newLimit"]);
+        const website = await chrome.storage.local.get(["key", "limit", "newLimit", "currentDay"]);
         const url = details.url;
         const tabId = details.tabId;
-        const hour = new Date().getHours();
-        const min = new Date().getMinutes();
+        const day = new Date().getDay();
 
         if (website && url) {
-            console.log(`Website:${website.key}, tab: ${url}, newLimit:${website.newLimit}, hour:${min}`)
             if (url.includes(website.key)) {
-                if (hour !== 0 && min !== 0) {
+                if (day === website.currentDay) {
                     if (website.newLimit === 0) {
                         chrome.tabs.remove(tabId);
 
@@ -35,8 +33,8 @@ chrome.tabs.onCreated.addListener(() => {
                     }
                 }
                 else {
-                    //Limit resets at midnight.
-                    website.newLimit = website.limit;
+                    //Limit resets every day.
+                    chrome.storage.local.set({newLimit:website.limit, currentDay: day})
                     chrome.notifications.create("LimitReset", 
                     {   type: "basic",
                         iconUrl: "icon32.png",
