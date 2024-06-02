@@ -39,7 +39,7 @@ chrome.tabs.onCreated.addListener(() => {
                     {   type: "basic",
                         iconUrl: "icon32.png",
                         title: 'LimitReset',
-                        message: `Limit Resetted: ${website.newLimit}`
+                        message: `Limit Resetted: ${chrome.storage.local.get("newLimit").newLimit}`
                     });
                     chrome.notifications.clear("LimitReset");
                 }
