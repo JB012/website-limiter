@@ -5,6 +5,8 @@ chrome.tabs.onCreated.addListener(() => {
         const url = details.url;
         const tabId = details.tabId;
         const day = new Date().getDay();
+        
+        console.log(chrome.storage.local.get("newLimit"))
 
         if (website && url) {
             if (url.includes(website.key)) {
@@ -39,7 +41,7 @@ chrome.tabs.onCreated.addListener(() => {
                     {   type: "basic",
                         iconUrl: "icon32.png",
                         title: 'LimitReset',
-                        message: `Limit Resetted: ${chrome.storage.local.get("newLimit").newLimit}`
+                        message: `Limit Resetted: ${website.limit}`
                     });
                     chrome.notifications.clear("LimitReset");
                 }
