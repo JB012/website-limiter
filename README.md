@@ -7,6 +7,3 @@ Directions for adding the extension.
 3. Press "Load unpacked" on the top left of the screen.
 4. Select the folder.
 5. Pin the extension.
-
-For entering the website, you can type the exact url such as "https://twitter.com/home", but
-it's better to type "twitter". 
